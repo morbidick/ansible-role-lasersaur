@@ -1,0 +1,6 @@
+# lasersaur admin ids list
+# {{ ansible_managed }}
+
+{% for id in lasersaur_admin_ids %}
+{{ id.id }}  #{{ id.name }}
+{% endfor %}

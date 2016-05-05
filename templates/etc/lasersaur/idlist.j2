@@ -1,0 +1,6 @@
+# lasersaur allowed ids list
+# {{ ansible_managed }}
+
+{% for id in lasersaur_allowed_ids %}
+{{ id.id }}  #{{ id.name }}
+{% endfor %}

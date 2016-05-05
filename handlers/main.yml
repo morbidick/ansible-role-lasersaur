@@ -1,0 +1,4 @@
+---
+- name: restart lasersaur
+  debug: msg="lasersaur daemon not implemented yet"
+  #service: "name={{ lasersaur_daemon_name }} state=restarted"

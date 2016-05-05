@@ -1,0 +1,6 @@
+---
+galaxy_info:
+  author: Lukas Mohrbacher
+  description: manages a lasersaur installation
+  license: MIT
+  dependencies: []

@@ -1,0 +1,60 @@
+---
+- name: Install git
+  package:
+    name: git
+    state: "present"
+
+- name: Create lasersaur user
+  user:
+    name: "{{ lasersaur_user }}"
+
+- name: Create directory
+  file:
+    path: "{{ lasersaur_dir }}"
+    state: directory
+    owner: root
+    group: "{{ lasersaur_user }}"
+    mode: 0775
+
+- name: Checkout Repository
+  git:
+    repo: "{{ lasersaur_repo }}"
+    dest: "{{ lasersaur_dir }}"
+    version: "{{ lasersaur_version }}"
+  become_user: "{{ lasersaur_user }}"
+  notify: restart lasersaur
+
+- name: Create config directory
+  file:
+    path: "{{ lasersaur_config_dir }}"
+    state: directory
+    owner: root
+    group: "{{ lasersaur_user }}"
+    mode: 0770
+
+- name: Copy backend config file
+  template:
+    src: etc/lasersaur/config.json.j2
+    dest: "{{ lasersaur_dir }}/backend/config.json"
+    owner: root
+    group: "{{ lasersaur_user }}"
+    mode: 0664
+  notify: restart lasersaur
+
+- name: Copy allowed ids list
+  template:
+    src: etc/lasersaur/idlist.j2
+    dest: "{{ lasersaur_allowed_ids_file }}"
+    owner: root
+    group: "{{ lasersaur_user }}"
+    mode: 0660
+  notify: restart lasersaur
+
+- name: Copy admin ids list
+  template:
+    src: etc/lasersaur/adminidlist.j2
+    dest: "{{ lasersaur_admin_ids_file }}"
+    owner: root
+    group: "{{ lasersaur_user }}"
+    mode: 0660
+  notify: restart lasersaur
